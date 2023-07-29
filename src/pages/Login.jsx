@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import '../styles/login.css';
 import { useFormik } from 'formik';
 import { getFormErrorMessage, isFormFieldValid } from '../helpers/util';
@@ -6,7 +6,6 @@ import ToastMessage from '../components/Toast/ToastMessage';
 import validateUser from '../dataserver/server.js';
 
 function Login() {
-  const [userDetails, setUserDetails] = useState({});
   const [showToast, setShowToast] = useState({
     show: false,
     header: '',
@@ -37,9 +36,7 @@ function Login() {
     validate,
     onSubmit: () => {
       const data = validateUser(formik.values.email, formik.values.password);
-      console.log('data : ', data);
       if (data.status === 'success') {
-        setUserDetails(data);
         setShowToast({
           show: true,
           header: 'Sign In',
@@ -56,12 +53,6 @@ function Login() {
       }
     },
   });
-
-  useEffect(() => {
-    if (userDetails) {
-      console.log('userDetails : ', userDetails);
-    }
-  }, [userDetails]);
 
   return (
     <>
