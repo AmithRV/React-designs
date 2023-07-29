@@ -1,10 +1,19 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import '../styles/login.css';
 import { useFormik } from 'formik';
 import { getFormErrorMessage, isFormFieldValid } from '../helpers/util';
 import ToastMessage from '../components/Toast/ToastMessage';
+import validateUser from '../dataserver/server.js';
 
 function Login() {
+  const [userDetails, setUserDetails] = useState({});
+  const [showToast, setShowToast] = useState({
+    show: false,
+    header: '',
+    message: '',
+    type: '',
+  });
+
   const validate = (data) => {
     const errors = {};
 
@@ -26,16 +35,46 @@ function Login() {
       password: '',
     },
     validate,
-    onSubmit: () => {},
+    onSubmit: () => {
+      const data = validateUser(formik.values.email, formik.values.password);
+      console.log('data : ', data);
+      if (data.status === 'success') {
+        setUserDetails(data);
+        setShowToast({
+          show: true,
+          header: 'Sign In',
+          message: 'Loged In Successfully.',
+          type: 'success',
+        });
+      } else if (data.status === 'failed') {
+        setShowToast({
+          show: true,
+          header: 'Sign In',
+          message: data.messge,
+          type: 'danger',
+        });
+      }
+    },
   });
+
+  useEffect(() => {
+    if (userDetails) {
+      console.log('userDetails : ', userDetails);
+    }
+  }, [userDetails]);
 
   return (
     <>
       <ToastMessage
-        show={true}
-        header="Sign In"
-        message="Loged In Successfully."
-        type="success"
+        show={showToast.show}
+        header={showToast.header}
+        message={showToast.message}
+        type={showToast.type}
+        onClose={() => {
+          setShowToast({
+            show: false,
+          });
+        }}
       />
 
       <div className="login-wrap">
@@ -55,6 +94,7 @@ function Login() {
                 aria-describedby="emailHelp"
                 placeholder="Enter email"
                 name="email"
+                autoComplete="off"
                 onChange={formik.handleChange}
                 value={formik?.values?.email}
                 style={
@@ -75,6 +115,7 @@ function Login() {
                 id="exampleInputPassword1"
                 placeholder="Password"
                 name="password"
+                autoComplete="off"
                 onChange={formik.handleChange}
                 value={formik?.values?.password}
                 style={
@@ -98,7 +139,13 @@ function Login() {
               </label>
             </div>
             <br />
-            <button type="submit" className="btn btn-primary">
+            <button
+              type="submit"
+              className="btn btn-primary"
+              onClick={() => {
+                formik.handleSubmit();
+              }}
+            >
               Submit
             </button>
           </form>
