@@ -6,6 +6,7 @@ import ToastMessage from '../components/Toast/ToastMessage';
 import validateUser from '../dataserver/server.js';
 
 function Login() {
+  const [loading, setLoading] = useState(false);
   const [showToast, setShowToast] = useState({
     show: false,
     header: '',
@@ -35,8 +36,10 @@ function Login() {
     },
     validate,
     onSubmit: () => {
+      setLoading(true);
       const data = validateUser(formik.values.email, formik.values.password);
       if (data.status === 'success') {
+        setLoading(false);
         setShowToast({
           show: true,
           header: 'Sign In',
@@ -44,6 +47,7 @@ function Login() {
           type: 'success',
         });
       } else if (data.status === 'failed') {
+        setLoading(false);
         setShowToast({
           show: true,
           header: 'Sign In',
@@ -136,8 +140,9 @@ function Login() {
               onClick={() => {
                 formik.handleSubmit();
               }}
+              disabled={loading}
             >
-              Submit
+              {loading ? 'loading...' : 'Submit'}
             </button>
           </form>
         </div>
