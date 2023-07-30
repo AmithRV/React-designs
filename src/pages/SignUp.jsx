@@ -140,6 +140,22 @@ function SignUp() {
                 }
               />
               {getFormErrorMessage(formik, 'password')}
+              <div className="password-strength">
+                <div className="section">
+{
+(formik?.values?.password?.matches('/[A-Z]/'))?(<img src="./svg/check.svg" alt="" width="20" height="20"/>):(<img src="./svg/alert-circle.svg" alt="" width="20" height="20"/>)
+}
+                  <span>uppercase</span>
+                </div>
+                <div className="section">
+                  <img src="./svg/alert-circle.svg" alt="" width="20" height="20"/>
+                  <span>number</span>
+                </div>
+                <div className="section">
+                  <img src="./svg/check.svg" alt="" width="20" height="20"/>
+                  <span>atleast 8 characters</span>
+                </div>
+              </div>
             </Form.Group>
           </Row>
 

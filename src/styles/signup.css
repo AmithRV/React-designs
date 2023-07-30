@@ -28,6 +28,33 @@ input {
     margin-top: 0.7rem !important;
 }
 
+.password-strength {
+    border: 1px solid #a8a8a8;
+    border-radius: 5px;
+    width: 200px;
+    position: relative;
+    top: 0px;
+    left: 12px;
+    background-color: white;
+    z-index: 9999;
+    padding: 10px;
+    box-shadow: 0 .5rem 1rem rgba(0, 0, 0, 0.21), inset 0 -1px 0 rgba(0, 0, 0, 0.57);
+}
+
+.section{
+    display: flex;
+    align-items: center;
+}
+
+.section>img{
+    position: relative;
+    bottom: -3px;
+}
+
+.section>span{
+    margin-left: 5px;
+}
+
 @media only screen and (max-width: 600px) {
     .signup {
         width: 95%;
