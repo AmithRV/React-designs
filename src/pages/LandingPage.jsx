@@ -5,8 +5,8 @@ import axios from 'axios';
 import Pusher from 'pusher-js';
 
 function LandingPage() {
-  const server = 'https://note-share-backend.onrender.com';
-  // const server = 'http://127.0.0.1:8000';
+  // const server = 'https://note-share-backend.onrender.com';
+  const server = 'http://127.0.0.1:8000';
 
   const [loading, setLoading] = useState({ isLoading: false, type: '' });
 

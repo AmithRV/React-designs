@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import '../styles/footer.css';
+import Loader from './loader/Loader';
 
 function Footer({ handleSendMessage, loading }) {
   const [key, setKey] = useState('');
@@ -26,7 +27,15 @@ function Footer({ handleSendMessage, loading }) {
             autoFocus
           />
           <div className="message-input-box-img-wrap" onClick={sendMessage}>
-            <img className="message-input-box-img" src="/svg/send.svg" alt="" />
+            {loading?.isLoading && loading?.type === 'add-message' ? (
+              <Loader width="32px" height="32px" color="black" />
+            ) : (
+              <img
+                className="message-input-box-img"
+                src="/svg/send.svg"
+                alt=""
+              />
+            )}
           </div>
           <button
             style={{ display: 'none' }}
