@@ -2,4 +2,12 @@
     background: linear-gradient(90deg, #1f2d42, #2d4261);
     width: 100%;
     height: 60px;
+    display: flex;
+    align-items: center;
+    justify-content: end;
+}
+
+.trash-wrap-img {
+    margin-right: 10px;
+    cursor: pointer;
 }

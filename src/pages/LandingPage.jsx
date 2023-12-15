@@ -5,17 +5,33 @@ import axios from 'axios';
 import Pusher from 'pusher-js';
 
 function LandingPage() {
-  const server = '127.0.0.1';
+  const server = 'https://note-share-backend.onrender.com';
+  // const server = 'http://127.0.0.1:8000';
+
+  const [loading, setLoading] = useState({ isLoading: false, type: '' });
 
   const [messages, setMessages] = useState([]);
 
   const handleSendMessage = (value) => {
+    setLoading({ isLoading: true, type: 'add-message' });
     const data = {
       content: value,
     };
     axios
-      .post(`http://${server}:8000/api/send-message`, data)
+      .post(`${server}/api/send-message`, data)
       .then(() => {})
+      .catch(() => {})
+      .finally(() => {
+        setLoading({ isLoading: false, type: '' });
+      });
+  };
+
+  const handleFlushServerDB = () => {
+    axios
+      .post(`${server}/api/flush`)
+      .then(() => {
+        setMessages([]);
+      })
       .catch(() => {});
   };
 
@@ -26,7 +42,11 @@ function LandingPage() {
 
     const channel = pusher.subscribe('messages');
     channel.bind('inserted', function (data) {
-      setMessages((prevArray) => [...prevArray, data?.message]);
+      if (data?.type === 'add-message') {
+        setMessages((prevArray) => [...prevArray, data?.message]);
+      } else if (data?.type === 'flush') {
+        setMessages([]);
+      }
     });
 
     return () => {
@@ -37,18 +57,24 @@ function LandingPage() {
 
   useEffect(() => {
     axios
-      .get(`http://${server}:8000/api/list-messages`)
+      .get(`${server}/api/list-messages`)
       .then((response) => {
         setMessages(response?.data);
       })
       .catch(() => {});
   }, []);
+
   return (
-    <Layout handleSendMessage={handleSendMessage}>
+    <Layout
+      handleSendMessage={handleSendMessage}
+      handleFlushServerDB={handleFlushServerDB}
+      loading={loading}
+    >
       <div>
-        {messages?.map((message, index) => (
-          <MessageLeft key={index} message={message} />
-        ))}
+        {messages?.length > 0 &&
+          messages?.map((message, index) => (
+            <MessageLeft key={index} message={message} />
+          ))}
       </div>
     </Layout>
   );

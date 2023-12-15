@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import '../styles/footer.css';
 
-function Footer({ handleSendMessage }) {
+function Footer({ handleSendMessage, loading }) {
   const [key, setKey] = useState('');
 
   const sendMessage = () => {
@@ -12,23 +12,22 @@ function Footer({ handleSendMessage }) {
     <div className="footer-wrap">
       <div className="message-box-wrap">
         <form
-          style={{ width: '100%' }}
           onSubmit={(e) => {
             e.preventDefault();
           }}
+          className="message-box-form"
         >
           <input
             type="text"
+            placeholder="Message"
             value={key}
             onChange={(e) => setKey(e.target.value)}
             className="message-input-box"
+            autoFocus
           />
-          <img
-            className="message-input-box-img"
-            src="/svg/check.svg"
-            alt=""
-            onClick={sendMessage}
-          />
+          <div className="message-input-box-img-wrap" onClick={sendMessage}>
+            <img className="message-input-box-img" src="/svg/send.svg" alt="" />
+          </div>
           <button
             style={{ display: 'none' }}
             onClick={(e) => {
