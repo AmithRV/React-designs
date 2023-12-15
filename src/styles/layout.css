@@ -1,0 +1,14 @@
+.layout-wrap {
+    width: 100vw;
+    height: 100vh;
+    background-color: #141d2bf7;
+}
+
+.body-wrap {
+    height: calc(100vh - 120px);
+    overflow-y: scroll;
+}
+
+.body-wrap::-webkit-scrollbar {
+    width: 0;
+}

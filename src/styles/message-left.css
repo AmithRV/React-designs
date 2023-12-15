@@ -1,0 +1,18 @@
+.message-left-wrap {
+    color: white;
+    width: 100%;
+    display: flex;
+    min-height: 80px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+.message-left {
+    background-color: white;
+    color: black;
+    margin-left: 10px;
+    min-width: 10%;
+    max-width: 80%;
+    border-radius: 6px;
+    padding: 10px;
+}
